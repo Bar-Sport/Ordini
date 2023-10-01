@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cocktail List</title>
+    <style>
+        /* Stili CSS qui */
+        .flag {
+            cursor: pointer;
+            font-size: 24px;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Tavolo n1</h1>
+
+    <div class="cocktail">
+        <h2 id="cocktail1">Cocktail 1</h2>
+        <p id="description1">Descrizione del Cocktail 1</p>
+        <label for="quantity1" id="quantity-label">Quantità:</label>
+        <input type="number" id="quantity1" name="quantity1" class="order-input" min="0" value="0">
+        <button class="order-button" onclick="sendOrder('Cocktail 1', document.getElementById('quantity1').value)">Invia ordine</button>
+    </div>
+
+    <!-- Ripetere questo blocco per gli altri cocktail -->
+    
+    <div class="cocktail">
+        <h2 id="cocktail10">Cocktail 10</h2>
+        <p id="description10">Descrizione del Cocktail 10</p>
+        <label for="quantity10" id="quantity-label-10">Quantità:</label>
+        <input type="number" id="quantity10" name="quantity10" class="order-input" min="0" value="0">
+        <button class="order-button" onclick="sendOrder('Cocktail 10', document.getElementById('quantity10').value)">Invia ordine</button>
+    </div>
+
+    <div id="qr-code">
+        <img src="URL_DEL_TUO_CODICE_QR" alt="QR Code">
+    </div>
+
+    <div>
+        <label for="language-select" id="language-label">Lingua:</label>
+        <select id="language-select" onchange="changeLanguage(this.value)">
+            <option value="it">🇮🇹 Italiano</option>
+            <option value="en">🇬🇧 English</option>
+            <option value="fr">🇫🇷 Français</option>
+            <option value="de">🇩🇪 Deutsch</option>
+            <option value="zh">🇨🇳 中文</option>
+            <option value="es">🇪🇸 Español</option>
+        </select>
+    </div>
+
+    <script>
+        const phoneNumber = +393209614484; // Sostituisci con il tuo numero di WhatsApp tra le virgolette singole
+        
+        const translations = {
+            "it": {
+                "cocktail1": "Cocktail 1",
+                "description1": "Descrizione del Cocktail 1",
+                "quantity-label": "Quantità:",
+                "cocktail10": "Cocktail 10",
+                "description10": "Descrizione del Cocktail 10",
+                "quantity-label-10": "Quantità:",
+                "language-label": "Lingua:",
+                "order-message": "Voglio ordinare"
+            },
+            "en": {
+                "cocktail1": "Cocktail 1",
+                "description1": "Description of Cocktail 1",
+                "quantity-label": "Quantity:",
+                "cocktail10": "Cocktail 10",
+                "description10": "Description of Cocktail 10",
+                "quantity-label-10": "Quantity:",
+                "language-label": "Language:",
+                "order-message": "I want to order"
+            },
+            "fr": {
+                "cocktail1": "Cocktail 1 (Français)",
+                "description1": "Description du Cocktail 1",
+                "quantity-label": "Quantité :",
+                "cocktail10": "Cocktail 10 (Français)",
+                "description10": "Description du Cocktail 10",
+                "quantity-label-10": "Quantité :",
+                "language-label": "Langue :",
+                "order-message": "Je veux commander"
+            },
+            "de": {
+                "cocktail1": "Cocktail 1 (Deutsch)",
+                "description1": "Beschreibung des Cocktails 1",
+                "quantity-label": "Menge:",
+                "cocktail10": "Cocktail 10 (Deutsch)",
+                "description10": "Beschreibung des Cocktails 10",
+                "quantity-label-10": "Menge:",
+                "language-label": "Sprache :",
+                "order-message": "Ich möchte bestellen"
+            },
+            "zh": {
+                "cocktail1": "鸡尾酒 1",
+                "description1": "鸡尾酒 1 的描述",
+                "quantity-label": "数量：",
+                "cocktail10": "鸡尾酒 10",
+                "description10": "鸡尾酒 10 的描述",
+                "quantity-label-10": "数量：",
+                "language-label": "语言：",
+                "order-message": "我想要订购"
+            },
+            "es": {
+                "cocktail1": "Cóctel 1 (Español)",
+                "description1": "Descripción del Cóctel 1",
+                "quantity-label": "Cantidad:",
+                "cocktail10": "Cóctel 10 (Español)",
+                "description10": "Descripción del Cóctel 10",
+                "quantity-label-10": "Cantidad:",
+                "language-label": "Idioma:",
+                "order-message": "Quiero ordenar"
+            }
+        };
+
+        function changeLanguage(selectedLanguage) {
+            // Applica le traduzioni
+            const elementsToTranslate = ["cocktail1", "description1", "quantity-label", "cocktail10", "description10", "quantity-label-10", "language-label"];
+            elementsToTranslate.forEach(elementId => {
+                const translation = translations[selectedLanguage][elementId];
+                document.getElementById(elementId).textContent = translation;
+            });
+        }
+
+        function sendOrder(cocktailName, quantity) {
+            const selectedLanguage = document.getElementById("language-select").value;
+            const orderMessage = translations[selectedLanguage]["order-message"];
+            const message = `${orderMessage} ${quantity} ${cocktailName} dalla lista dei cocktail.`;
+            const whatsappLink = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodeURIComponent(message)}`;
+                       // Aprire il link WhatsApp in una nuova finestra del browser
+            window.open(whatsappLink, "_blank");
+        }
+    </script>
+</body>
+</html>
